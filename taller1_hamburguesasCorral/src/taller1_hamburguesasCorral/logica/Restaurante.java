@@ -59,6 +59,7 @@ public class Restaurante
 		{
 			cargarInfoMenu();
 			cargarInfoIngredientes();
+			cargarInfoCombos();
 			System.out.println("\n===== Nuestro Menu =====\n");
 			for (ProductoMenu i: menuBase) 
 			{
@@ -70,6 +71,11 @@ public class Restaurante
 				String nombre = a.getNombre();
 				int precio = a.getCostoAdicional();
 				System.out.println(nombre + ": " + precio);
+			}
+			System.out.println("\n===== Combos =====\n");
+			for (Combo c: Combos) 
+			{
+				System.out.println(c.generarTextoFactura());  ; 
 			}
 			
 		} catch (IOException e) 
@@ -117,10 +123,43 @@ public class Restaurante
         br.close(); 
 	}
 	
-	private void cargarInfoCombos(File archivoCombos) 
+	private void cargarInfoCombos() throws IOException 
 	{
-		
+		File menuCombos = new File("./data/combos.txt");
+        BufferedReader br = new BufferedReader(new FileReader(menuCombos));
+        String line = br.readLine();
+        String[] info;
+        Combo Comb0;
+        ProductoMenu productoMenu;
+
+        while (line != null) {
+            info = line.split(";");
+            String nombre = info[0];
+            double descuento = 0.07; 
+            if (info[1] == "10%")
+            	descuento = 0.10;
+            Comb0 = new Combo(nombre, descuento);
+            for (int l = 2; l < 5; l++) 
+            {
+            	productoMenu = buscarProducto(info[l]);
+            	Comb0.agregarCombo(productoMenu);
+            }
+            Combos.add(Comb0);
+            line = br.readLine();
+        }
+        br.close(); 
 	}
 	
+	///Generar un metodo de busqueda de productos en menu base
 	
+	private ProductoMenu buscarProducto(String nombreProducto)
+	{
+		ProductoMenu elProducto = null;
+		for (int i = 0; i < menuBase.size() && elProducto == null; i++)
+		{
+			if (menuBase.get(i).getNombre().equals(nombreProducto))
+				elProducto = menuBase.get(i);
+		}
+		return elProducto;
+	}
 }

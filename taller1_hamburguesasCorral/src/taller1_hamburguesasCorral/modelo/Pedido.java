@@ -9,17 +9,16 @@ public class Pedido
 	private int iDPedido;
 	private String nombreCliente;
 	private String direccionCliente;
-	public ArrayList<ProductoMenu> itemsPedido;
+	public ArrayList<Producto> itemsPedido;
 	
 	///Constructor
-	
-	public Pedido (String nombre, String direccion) 
+	public Pedido (String nombre, String direccion, int noPedido) 
 	{
-		this.numeroPedido ++;
-		this.iDPedido ++;
-		this.nombreCliente = nombre;
-		this.direccionCliente = direccion;
-		itemsPedido = new ArrayList<ProductoMenu>();
+		nombreCliente = nombre;
+		direccionCliente = direccion;
+		itemsPedido = new ArrayList<>();
+		numeroPedido = noPedido;
+		iDPedido = noPedido - 1; 
 	}
 	
 	///Models
@@ -29,7 +28,7 @@ public class Pedido
 		return iDPedido;
 	}
 
-	public void añadirPedido(ProductoMenu nuevoItem) 
+	public void añadirPedido(Producto nuevoItem) 
 	{
 		itemsPedido.add(nuevoItem);
 	}
@@ -56,19 +55,43 @@ public class Pedido
 	private int getPrecioIVAPedido() 
 	{
 		int Neto = getPrecioNetoPedido();
-		float pIVA = Neto * 19;
+		double pIVA = Neto * 0.19;
 		int intIVA = (int)pIVA;
 		return intIVA;
 	}
 	
 	private String darTextoFactura() 
 	{
-		return null;
+		String txtFactura = "\n ====== Factura No. " + 
+				numeroPedido + " ====== \n" +  "\nNombre Cliente: " + nombreCliente + "\nDireccion Cliente:  " 
+			+ direccionCliente + "\n" + "---------------------------------";
+		if (itemsPedido.size() != 0) 
+		{
+			txtFactura += "\n        ==== Pedido ====         \n";
+			for (Producto m: itemsPedido)
+				txtFactura += ("\n" + m.generarTextoFactura());
+			txtFactura += "\n---------------------------------" + "\nTotal Neto:                  $...." 
+				+ getPrecioNetoPedido() + "\n+ Precio IVA (19%)           $...." + getPrecioIVAPedido() + 
+				"\n---------------------------------" + "\nPrecio Total:                $...." + getPrecioTotalPedido();
+		}
+		else
+		{
+			txtFactura += "\nNo ha añadido ningún producto";
+		}
+		return txtFactura;
 	}
 	
-	public void guardarFactura() 
+	public void guardarFactura() 	
 	{
-		
+		String nuevaFactura = darTextoFactura();
+		numeroPedido++;
+		iDPedido++;
+		System.out.println(nuevaFactura);
+	}
+	
+	public Producto getLastProducto()
+	{
+		return itemsPedido.get(itemsPedido.size() - 1);
 	}
 	
 }

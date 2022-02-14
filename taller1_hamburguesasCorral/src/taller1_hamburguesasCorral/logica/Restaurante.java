@@ -10,47 +10,58 @@ import taller1_hamburguesasCorral.modelo.Combo;
 import taller1_hamburguesasCorral.modelo.Ingrediente;
 import taller1_hamburguesasCorral.modelo.Pedido;
 import taller1_hamburguesasCorral.modelo.Producto;
+import taller1_hamburguesasCorral.modelo.ProductoAjustado;
 import taller1_hamburguesasCorral.modelo.ProductoMenu;
 
 
 public class Restaurante 
 {
 	///Attributes
-	public ArrayList<Combo> Combos = new ArrayList<>();
-	public ArrayList<Pedido> Pedidos = new ArrayList<>();
-	public ArrayList<Ingrediente> Ingredientes = new ArrayList<>();
-	public ArrayList<ProductoMenu> menuBase = new ArrayList<>();
+	public ArrayList<Combo> Combos;
+	public ArrayList<Pedido> Pedidos;
+	public ArrayList<Ingrediente> Ingredientes;
+	public ArrayList<ProductoMenu> menuBase;
+	public int cantPedidos;
+	
 	///Constructor
 	
-	
+	public Restaurante() 
+	{
+		Combos = new ArrayList<>();
+		Pedidos = new ArrayList<>();
+		Ingredientes = new ArrayList<>();
+		menuBase = new ArrayList<>();
+		cantPedidos = 0;
+	}
 	///Models
 	
 	
 
 	public void iniciarPedido(String nombreCliente, String direccionCliente) 
 	{
-		Pedido pedido = new Pedido(nombreCliente, direccionCliente);
+		cantPedidos++;
+		Pedido pedido = new Pedido(nombreCliente, direccionCliente, cantPedidos);
 		Pedidos.add(pedido);
 	}
 	
 	public void cerrarGuardarPedido() 
 	{
-		
+		getPedidoEnCurso().guardarFactura();
 	}
 	
 	public Pedido getPedidoEnCurso() 
 	{
-		return null;
+		return Pedidos.get(Pedidos.size() - 1);
 	}
 	
-	public ArrayList<Producto> getMenuBase() 
+	public ArrayList<ProductoMenu> getMenuBase() 
 	{
-		return null;
+		return menuBase;
 	}
 	
 	public ArrayList<Ingrediente> getIngredientes()
 	{
-		return null;
+		return Ingredientes;
 	}
 	
 	public void cargarInfoRestaurante() 
@@ -154,12 +165,60 @@ public class Restaurante
 	
 	private ProductoMenu buscarProducto(String nombreProducto)
 	{
-		ProductoMenu elProducto = null;
-		for (int i = 0; i < menuBase.size() && elProducto == null; i++)
+		ProductoMenu theProducto = null;
+		for (int i = 0; i < menuBase.size() && theProducto == null; i++)
 		{
 			if (menuBase.get(i).getNombre().equals(nombreProducto))
-				elProducto = menuBase.get(i);
+				theProducto = menuBase.get(i);
 		}
+		return theProducto;
+	}
+	
+	private Producto buscarItemTipoProducto(int iDProducto, boolean tipo)
+	{
+		Producto elProducto = null;
+		if (tipo == true)
+		{
+			elProducto = Combos.get(iDProducto - 1);
+		}
+		else if (tipo == false)
+		{
+			elProducto = menuBase.get(iDProducto - 1);
+		}
+		else
+			System.out.println("No se Encontro producto");
+		
 		return elProducto;
 	}
+	
+	private Ingrediente buscarIngrediente(int idIngrediente)
+	{
+		return Ingredientes.get(idIngrediente - 1);
+	}
+	
+	public void añadirProductoAPedido(int iDProducto, Pedido elPedido, boolean esCombo) 
+	{
+		Producto elProducto = buscarItemTipoProducto(iDProducto, esCombo);
+		elPedido.añadirPedido(elProducto);
+		
+	}
+	
+	public void añadirIngredientePrtoducto(Pedido elPedido, int iDIngrediente, boolean quitar)
+	{
+		Producto aEditar = elPedido.getLastProducto();
+		elPedido.itemsPedido.remove(aEditar);
+		ProductoAjustado productoEditado = new ProductoAjustado(aEditar);
+		Ingrediente elIngrediente = buscarIngrediente(iDIngrediente);
+		if (quitar == true) 
+		{
+			productoEditado.eliminarIngrediente(elIngrediente);;
+		}
+		else 
+		{
+			productoEditado.agregarIngrediente(elIngrediente);
+		}
+		elPedido.añadirPedido(productoEditado);
+			
+	}
+	
 }

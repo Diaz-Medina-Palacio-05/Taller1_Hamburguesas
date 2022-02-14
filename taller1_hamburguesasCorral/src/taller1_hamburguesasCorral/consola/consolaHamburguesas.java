@@ -30,7 +30,7 @@ public class consolaHamburguesas
 					case 2 -> nuevoPedido();
 					case 3 -> agregarComida();
 					case 4 -> {System.out.println("Guardando Pedido... "); corral.cerrarGuardarPedido();}
-					case 5 -> System.out.println("\nEsta es la opción 4 esta en TODO");
+					case 5 -> buscarPedidoPorID();
 					case 6 -> {System.out.println("\n Saliendo de la aplicación ...");
 					continuar = false;}
 					default -> System.out.println("Seleccione una opcion valida");
@@ -82,7 +82,7 @@ public class consolaHamburguesas
 	{
 		boolean esCombo;
 		Pedido theOrder = corral.getPedidoEnCurso();
-		System.out.println("***** ¡Agregale Comida a tu Pedido! *****");
+		System.out.println("\n***** ¡Agregale Comida a tu Pedido! *****\n");
 		int respuesta =  Integer.parseInt(input("\nQuieres 1. Sencillo o 2. Combo"));
 		if (respuesta == 1) 
 		{
@@ -151,20 +151,28 @@ public class consolaHamburguesas
 			{
 				imprimirIngredientes(); 
 				int ingred = Integer.parseInt(input("\nQue ingrediente quieres adicionar?"));
-				corral.añadirIngredientePrtoducto(theOrder, ingred, false);
+				corral.añadirQuitarIngredienteProducto(theOrder, ingred, false);
 			
 			}
 			case 2 -> 
 			{
 				imprimirIngredientes(); 
 				int ingred = Integer.parseInt(input("\nQue ingrediente quieres quitar?"));
-				corral.añadirIngredientePrtoducto(theOrder, ingred, true);
+				corral.añadirQuitarIngredienteProducto(theOrder, ingred, true);
 			
 			}
 			case 3 -> continuar = false;
+			default -> System.out.println("Seleccione una opcion valida");
 			}
+			
 		}
 		
+	}
+	
+	public void buscarPedidoPorID()
+	{
+		int respuesta = Integer.parseInt(input("Por favor ingrese el iD del Pedido"));
+		System.out.println(corral.encontrarPedido(respuesta));
 	}
 	
 	public static void main(String[] args) throws IOException 

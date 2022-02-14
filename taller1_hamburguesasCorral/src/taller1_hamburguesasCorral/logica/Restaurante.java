@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import taller1_hamburguesasCorral.modelo.Combo;
 import taller1_hamburguesasCorral.modelo.Ingrediente;
@@ -22,6 +23,7 @@ public class Restaurante
 	public ArrayList<Ingrediente> Ingredientes;
 	public ArrayList<ProductoMenu> menuBase;
 	public int cantPedidos;
+	public HashMap<Integer, String> todosPedidos;
 	
 	///Constructor
 	
@@ -32,11 +34,9 @@ public class Restaurante
 		Ingredientes = new ArrayList<>();
 		menuBase = new ArrayList<>();
 		cantPedidos = 0;
+		todosPedidos = new HashMap<>();
 	}
 	///Models
-	
-	
-
 	public void iniciarPedido(String nombreCliente, String direccionCliente) 
 	{
 		cantPedidos++;
@@ -44,9 +44,11 @@ public class Restaurante
 		Pedidos.add(pedido);
 	}
 	
-	public void cerrarGuardarPedido() 
+	public void cerrarGuardarPedido() throws IOException 
 	{
-		getPedidoEnCurso().guardarFactura();
+		int iD = getPedidoEnCurso().getIDPedido();
+		String facturaFinalizada = getPedidoEnCurso().guardarFactura();
+		todosPedidos.put(iD, facturaFinalizada);
 	}
 	
 	public Pedido getPedidoEnCurso() 
@@ -203,7 +205,7 @@ public class Restaurante
 		
 	}
 	
-	public void añadirIngredientePrtoducto(Pedido elPedido, int iDIngrediente, boolean quitar)
+	public void añadirQuitarIngredienteProducto(Pedido elPedido, int iDIngrediente, boolean quitar)
 	{
 		Producto aEditar = elPedido.getLastProducto();
 		elPedido.itemsPedido.remove(aEditar);
@@ -219,6 +221,11 @@ public class Restaurante
 		}
 		elPedido.añadirPedido(productoEditado);
 			
+	}
+	
+	public String encontrarPedido(int codigo)
+	{
+		return todosPedidos.get(codigo);
 	}
 	
 }

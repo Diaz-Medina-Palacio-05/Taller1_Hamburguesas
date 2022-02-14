@@ -1,5 +1,9 @@
 package taller1_hamburguesasCorral.modelo;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Pedido 
@@ -18,7 +22,7 @@ public class Pedido
 		direccionCliente = direccion;
 		itemsPedido = new ArrayList<>();
 		numeroPedido = noPedido;
-		iDPedido = noPedido - 1; 
+		iDPedido = noPedido; 
 	}
 	
 	///Models
@@ -81,12 +85,19 @@ public class Pedido
 		return txtFactura;
 	}
 	
-	public void guardarFactura() 	
+	public String guardarFactura() throws IOException 	
 	{
 		String nuevaFactura = darTextoFactura();
 		numeroPedido++;
-		iDPedido++;
-		System.out.println(nuevaFactura);
+		File nombre = new File("./facturas/" + iDPedido + ".txt");
+		if (!nombre.createNewFile()) 
+		{
+			System.err.print("El archivo ya existe");
+		}
+		BufferedWriter archivo = new BufferedWriter(new FileWriter(nombre));
+		archivo.write(nuevaFactura);
+		archivo.close();
+		return nuevaFactura;
 	}
 	
 	public Producto getLastProducto()

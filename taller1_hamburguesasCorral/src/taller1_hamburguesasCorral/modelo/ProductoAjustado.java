@@ -36,7 +36,7 @@ public class ProductoAjustado implements Producto
 		String nombreEditado = base.getNombre();
 		if (agregados.isEmpty() == false)
 		{
-			nombreEditado += " con adición de ";
+			nombreEditado += " con adicion de ";
 			for (Ingrediente ingred: agregados) 
 			{
 				nombreEditado += ingred.getNombre() + " ";

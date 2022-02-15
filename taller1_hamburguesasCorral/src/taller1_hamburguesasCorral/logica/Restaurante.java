@@ -100,8 +100,8 @@ public class Restaurante
 	
 	private void cargarInfoIngredientes() throws IOException 
 	{ 
-		File añadidos = new File("./data/ingredientes.txt");
-        BufferedReader br = new BufferedReader(new FileReader(añadidos));
+		File anadidos = new File("./data/ingredientes.txt");
+        BufferedReader br = new BufferedReader(new FileReader(anadidos));
         String line = br.readLine();
         String[] info;
         Ingrediente prodIngrediente;
@@ -198,14 +198,14 @@ public class Restaurante
 		return Ingredientes.get(idIngrediente - 1);
 	}
 	
-	public void añadirProductoAPedido(int iDProducto, Pedido elPedido, boolean esCombo) 
+	public void anadirProductoAPedido(int iDProducto, Pedido elPedido, boolean esCombo) 
 	{
 		Producto elProducto = buscarItemTipoProducto(iDProducto, esCombo);
-		elPedido.añadirPedido(elProducto);
+		elPedido.anadirPedido(elProducto);
 		
 	}
 	
-	public void añadirQuitarIngredienteProducto(Pedido elPedido, int iDIngrediente, boolean quitar)
+	public void anadirQuitarIngredienteProducto(Pedido elPedido, int iDIngrediente, boolean quitar)
 	{
 		Producto aEditar = elPedido.getLastProducto();
 		elPedido.itemsPedido.remove(aEditar);
@@ -219,7 +219,7 @@ public class Restaurante
 		{
 			productoEditado.agregarIngrediente(elIngrediente);
 		}
-		elPedido.añadirPedido(productoEditado);
+		elPedido.anadirPedido(productoEditado);
 			
 	}
 	

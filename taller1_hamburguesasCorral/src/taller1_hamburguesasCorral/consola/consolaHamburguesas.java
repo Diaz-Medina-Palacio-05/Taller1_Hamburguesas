@@ -89,7 +89,7 @@ public class consolaHamburguesas
 			imprimirMenu();
 			esCombo = false;
 			int opcion = Integer.parseInt(input("\nSeleccione un Producto..."));
-			corral.añadirProductoAPedido(opcion, theOrder, esCombo);
+			corral.anadirProductoAPedido(opcion, theOrder, esCombo);
 			adiciones(theOrder);
 		}
 		else if(respuesta == 2)
@@ -97,7 +97,7 @@ public class consolaHamburguesas
 			imprimirMenuCombos();
 			esCombo = true;
 			int opcion = Integer.parseInt(input("\nSeleccione un Producto..."));
-			corral.añadirProductoAPedido(opcion, theOrder, esCombo);
+			corral.anadirProductoAPedido(opcion, theOrder, esCombo);
 		}
 		else
 			System.out.println("Escoja una opcion valida");
@@ -151,14 +151,14 @@ public class consolaHamburguesas
 			{
 				imprimirIngredientes(); 
 				int ingred = Integer.parseInt(input("\nQue ingrediente quieres adicionar?"));
-				corral.añadirQuitarIngredienteProducto(theOrder, ingred, false);
+				corral.anadirQuitarIngredienteProducto(theOrder, ingred, false);
 			
 			}
 			case 2 -> 
 			{
 				imprimirIngredientes(); 
 				int ingred = Integer.parseInt(input("\nQue ingrediente quieres quitar?"));
-				corral.añadirQuitarIngredienteProducto(theOrder, ingred, true);
+				corral.anadirQuitarIngredienteProducto(theOrder, ingred, true);
 			
 			}
 			case 3 -> continuar = false;

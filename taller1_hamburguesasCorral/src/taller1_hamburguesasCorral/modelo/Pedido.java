@@ -32,7 +32,7 @@ public class Pedido
 		return iDPedido;
 	}
 
-	public void añadirPedido(Producto nuevoItem) 
+	public void anadirPedido(Producto nuevoItem) 
 	{
 		itemsPedido.add(nuevoItem);
 	}
@@ -80,7 +80,7 @@ public class Pedido
 		}
 		else
 		{
-			txtFactura += "\nNo ha añadido ningún producto";
+			txtFactura += "\nNo ha anadido ningun producto";
 		}
 		return txtFactura;
 	}

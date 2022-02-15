@@ -8,6 +8,7 @@ public class Combo implements Producto
 	private double descuento;
 	private String nombreCombo;
 	private ArrayList<ProductoMenu> itemsCombo;
+	private Bebida bebidaCombo;
 	///Constructor
 	
 	public Combo(String nombre, double menos)
@@ -15,6 +16,12 @@ public class Combo implements Producto
 		descuento = menos;
 		nombreCombo = nombre;
 		itemsCombo = new ArrayList<ProductoMenu>();
+		bebidaCombo = null;
+	}
+	
+	public void agregarBebida(Bebida pbebidaCombo)
+	{
+		bebidaCombo = pbebidaCombo;
 	}
 	
 	public void agregarCombo(ProductoMenu itemCombo)
@@ -32,8 +39,10 @@ public class Combo implements Producto
 			double precio = precio0 - (descuento * precio0);
 			pFinal += (int) precio;
 		}
-			
-		return pFinal;
+		
+		int precioBebida = bebidaCombo.getCostoAdicional();
+		
+		return pFinal + precioBebida;
 	}
 
 	@Override

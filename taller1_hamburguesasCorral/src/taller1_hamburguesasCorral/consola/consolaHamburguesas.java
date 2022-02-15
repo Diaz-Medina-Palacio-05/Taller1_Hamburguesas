@@ -24,21 +24,21 @@ public class consolaHamburguesas
 			try
 			{
 				mostrarMenu();
-				int opcion_seleccionada = Integer.parseInt(input("Por favor seleccione una opción"));
+				int opcion_seleccionada = Integer.parseInt(input("Por favor seleccione una opcion"));
 				switch(opcion_seleccionada) {
 					case 1 -> corral.cargarInfoRestaurante();
 					case 2 -> nuevoPedido();
 					case 3 -> agregarComida();
 					case 4 -> {System.out.println("Guardando Pedido... "); corral.cerrarGuardarPedido();}
 					case 5 -> buscarPedidoPorID();
-					case 6 -> {System.out.println("\n Saliendo de la aplicación ...");
+					case 6 -> {System.out.println("\n Saliendo de la aplicacion ...");
 					continuar = false;}
 					default -> System.out.println("Seleccione una opcion valida");
 				}
 			}
 			catch (NumberFormatException e)
 			{
-				System.out.println("Debe seleccionar uno de los números de las opciones.");
+				System.out.println("Debe seleccionar uno de los numeros de las opciones.");
 			}
 		}
 		
@@ -46,13 +46,13 @@ public class consolaHamburguesas
 	
 	public void mostrarMenu() 
 	{
-		System.out.println("\n Opciones de la aplicación\n");
+		System.out.println("\n Opciones de la aplicacion\n");
 		System.out.println("1. CARGAR RESTAURANTE / Mostrar Menu");
 		System.out.println("2. Hacer un NUEVO Pedido");
 		System.out.println("3. Agregar un elemento a un pedido");
 		System.out.println("4. Cerrar un pedido y guardar la factura");
-		System.out.println("5. Consultar la información de un pedido dado su id");
-		System.out.println("6. Salir de la aplicación\n");
+		System.out.println("5. Consultar la informacion de un pedido dado su id");
+		System.out.println("6. Salir de la aplicacion\n");
 	}
 	
 	public String input(String mensaje)
@@ -82,14 +82,14 @@ public class consolaHamburguesas
 	{
 		boolean esCombo;
 		Pedido theOrder = corral.getPedidoEnCurso();
-		System.out.println("\n***** ¡Agregale Comida a tu Pedido! *****\n");
+		System.out.println("\n***** Agregale Comida a tu Pedido! *****\n");
 		int respuesta =  Integer.parseInt(input("\nQuieres 1. Sencillo o 2. Combo"));
 		if (respuesta == 1) 
 		{
 			imprimirMenu();
 			esCombo = false;
 			int opcion = Integer.parseInt(input("\nSeleccione un Producto..."));
-			corral.añadirProductoAPedido(opcion, theOrder, esCombo);
+			corral.anadirProductoAPedido(opcion, theOrder, esCombo);
 			adiciones(theOrder);
 		}
 		else if(respuesta == 2)
@@ -97,7 +97,7 @@ public class consolaHamburguesas
 			imprimirMenuCombos();
 			esCombo = true;
 			int opcion = Integer.parseInt(input("\nSeleccione un Producto..."));
-			corral.añadirProductoAPedido(opcion, theOrder, esCombo);
+			corral.anadirProductoAPedido(opcion, theOrder, esCombo);
 		}
 		else
 			System.out.println("Escoja una opcion valida");
@@ -151,14 +151,14 @@ public class consolaHamburguesas
 			{
 				imprimirIngredientes(); 
 				int ingred = Integer.parseInt(input("\nQue ingrediente quieres adicionar?"));
-				corral.añadirQuitarIngredienteProducto(theOrder, ingred, false);
+				corral.anadirQuitarIngredienteProducto(theOrder, ingred, false);
 			
 			}
 			case 2 -> 
 			{
 				imprimirIngredientes(); 
 				int ingred = Integer.parseInt(input("\nQue ingrediente quieres quitar?"));
-				corral.añadirQuitarIngredienteProducto(theOrder, ingred, true);
+				corral.anadirQuitarIngredienteProducto(theOrder, ingred, true);
 			
 			}
 			case 3 -> continuar = false;

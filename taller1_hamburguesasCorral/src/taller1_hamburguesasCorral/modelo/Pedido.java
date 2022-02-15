@@ -32,7 +32,7 @@ public class Pedido
 		return iDPedido;
 	}
 
-	public void añadirPedido(Producto nuevoItem) 
+	public void anadirPedido(Producto nuevoItem) 
 	{
 		itemsPedido.add(nuevoItem);
 	}

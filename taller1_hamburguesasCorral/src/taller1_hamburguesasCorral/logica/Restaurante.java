@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import taller1_hamburguesasCorral.modelo.Bebida;
 import taller1_hamburguesasCorral.modelo.Combo;
 import taller1_hamburguesasCorral.modelo.Ingrediente;
 import taller1_hamburguesasCorral.modelo.Pedido;
@@ -21,6 +22,7 @@ public class Restaurante
 	public ArrayList<Combo> Combos;
 	public ArrayList<Pedido> Pedidos;
 	public ArrayList<Ingrediente> Ingredientes;
+	public ArrayList<Bebida> Bebidas;
 	public ArrayList<ProductoMenu> menuBase;
 	public int cantPedidos;
 	public HashMap<Integer, String> todosPedidos;
@@ -32,6 +34,7 @@ public class Restaurante
 		Combos = new ArrayList<>();
 		Pedidos = new ArrayList<>();
 		Ingredientes = new ArrayList<>();
+		Bebidas = new ArrayList<>();
 		menuBase = new ArrayList<>();
 		cantPedidos = 0;
 		todosPedidos = new HashMap<>();
@@ -72,12 +75,15 @@ public class Restaurante
 		{
 			cargarInfoMenu();
 			cargarInfoIngredientes();
+			cargarInfoBebidas();
 			cargarInfoCombos();
+			
 			System.out.println("\n===== Nuestro Menu =====\n");
 			for (ProductoMenu i: menuBase) 
 			{
 				System.out.println(i.generarTextoFactura());  ; 
 			}
+			
 			System.out.println("\n===== Adiciones =====\n");
 			for (Ingrediente a: Ingredientes) 
 			{
@@ -85,6 +91,15 @@ public class Restaurante
 				int precio = a.getCostoAdicional();
 				System.out.println(nombre + ": " + precio);
 			}
+			
+			System.out.println("\n===== Bebidas =====\n");
+			for (Bebida a: Bebidas) 
+			{
+				String nombre = a.getNombre();
+				int precio = a.getCostoAdicional();
+				System.out.println(nombre + ": " + precio);
+			}
+			
 			System.out.println("\n===== Combos =====\n");
 			for (Combo c: Combos) 
 			{
@@ -100,8 +115,8 @@ public class Restaurante
 	
 	private void cargarInfoIngredientes() throws IOException 
 	{ 
-		File añadidos = new File("./data/ingredientes.txt");
-        BufferedReader br = new BufferedReader(new FileReader(añadidos));
+		File anadidos = new File("./data/ingredientes.txt");
+        BufferedReader br = new BufferedReader(new FileReader(anadidos));
         String line = br.readLine();
         String[] info;
         Ingrediente prodIngrediente;
@@ -112,6 +127,25 @@ public class Restaurante
             int precio = Integer.parseInt(info[1]);
             prodIngrediente = new Ingrediente(nombre, precio);
             Ingredientes.add(prodIngrediente);
+            line = br.readLine();
+        }
+        br.close(); 
+	}
+	
+	private void cargarInfoBebidas() throws IOException 
+	{ 
+		File bebidas = new File("./data/bebidas.txt");
+        BufferedReader br = new BufferedReader(new FileReader(bebidas));
+        String line = br.readLine();
+        String[] info;
+        Bebida prodBebida;
+
+        while (line != null) {
+            info = line.split(";");
+            String nombre = info[0];
+            int precio = Integer.parseInt(info[1]);
+            prodBebida = new Bebida(nombre, precio);
+            Bebidas.add(prodBebida);
             line = br.readLine();
         }
         br.close(); 
@@ -144,6 +178,7 @@ public class Restaurante
         String[] info;
         Combo Comb0;
         ProductoMenu productoMenu;
+        Bebida bebidaCombo;
 
         while (line != null) {
             info = line.split(";");
@@ -152,16 +187,31 @@ public class Restaurante
             if (info[1] == "10%")
             	descuento = 0.10;
             Comb0 = new Combo(nombre, descuento);
-            for (int l = 2; l < 5; l++) 
+            for (int i = 2; i < 5; i++) 
             {
-            	productoMenu = buscarProducto(info[l]);
-            	Comb0.agregarCombo(productoMenu);
+            	productoMenu = buscarProducto(info[i]);
+            	if (productoMenu != null)
+            	{
+            		Comb0.agregarCombo(productoMenu);	
+            	}
+            	
+            	bebidaCombo = buscarBebida(info[i]);
+            	if (bebidaCombo != null)
+            	{
+            		Comb0.agregarBebida(bebidaCombo);
+            	}
+            	
             }
             Combos.add(Comb0);
             line = br.readLine();
         }
         br.close(); 
 	}
+	
+
+
+	
+	
 	
 	///Generar un metodo de busqueda de productos en menu base
 	
@@ -175,6 +225,22 @@ public class Restaurante
 		}
 		return theProducto;
 	}
+	
+	 
+	
+	
+	private Bebida buscarBebida(String nombreBebida)
+	{
+		Bebida theBbebida = null;
+		for (int i = 0; i < Bebidas.size() && theBbebida == null; i++)
+		{
+			if (Bebidas.get(i).getNombre().equals(nombreBebida))
+				theBbebida = Bebidas.get(i);
+		}
+		return theBbebida;
+	}
+	
+	
 	
 	private Producto buscarItemTipoProducto(int iDProducto, boolean tipo)
 	{
@@ -198,14 +264,14 @@ public class Restaurante
 		return Ingredientes.get(idIngrediente - 1);
 	}
 	
-	public void añadirProductoAPedido(int iDProducto, Pedido elPedido, boolean esCombo) 
+	public void anadirProductoAPedido(int iDProducto, Pedido elPedido, boolean esCombo) 
 	{
 		Producto elProducto = buscarItemTipoProducto(iDProducto, esCombo);
-		elPedido.añadirPedido(elProducto);
+		elPedido.anadirPedido(elProducto);
 		
 	}
 	
-	public void añadirQuitarIngredienteProducto(Pedido elPedido, int iDIngrediente, boolean quitar)
+	public void anadirQuitarIngredienteProducto(Pedido elPedido, int iDIngrediente, boolean quitar)
 	{
 		Producto aEditar = elPedido.getLastProducto();
 		elPedido.itemsPedido.remove(aEditar);
@@ -219,7 +285,7 @@ public class Restaurante
 		{
 			productoEditado.agregarIngrediente(elIngrediente);
 		}
-		elPedido.añadirPedido(productoEditado);
+		elPedido.anadirPedido(productoEditado);
 			
 	}
 	

@@ -36,7 +36,7 @@ public class Restaurante
 		Ingredientes = new ArrayList<>();
 		Bebidas = new ArrayList<>();
 		menuBase = new ArrayList<>();
-		cantPedidos = 0;
+		cantPedidos = darCantPedidos();
 		todosPedidos = new HashMap<>();
 	}
 	///Models
@@ -113,6 +113,22 @@ public class Restaurante
 		
 	}
 	
+	private int darCantPedidos() 
+	{
+		int cantPedidos = 0;
+		File pedidosDir = new File("./facturas");
+		
+		String facturas[] = pedidosDir.list();
+		
+		for(int i=0; i<facturas.length; i++) 
+		{
+			cantPedidos++;
+		  }
+		
+		return cantPedidos;
+		
+	}
+	
 	private void cargarInfoIngredientes() throws IOException 
 	{ 
 		File anadidos = new File("./data/ingredientes.txt");
@@ -125,7 +141,8 @@ public class Restaurante
             info = line.split(";");
             String nombre = info[0];
             int precio = Integer.parseInt(info[1]);
-            prodIngrediente = new Ingrediente(nombre, precio);
+            int calorias = Integer.parseInt(info[2]);
+            prodIngrediente = new Ingrediente(nombre, precio, calorias);
             Ingredientes.add(prodIngrediente);
             line = br.readLine();
         }
@@ -144,9 +161,10 @@ public class Restaurante
             info = line.split(";");
             String nombre = info[0];
             int precio = Integer.parseInt(info[1]);
-            prodBebida = new Bebida(nombre, precio);
+            int calorias = Integer.parseInt(info[2]);
+            prodBebida = new Bebida(nombre, precio, calorias);
             Bebidas.add(prodBebida);
-            line = br.readLine();
+            line = br.readLine(); 
         }
         br.close(); 
 	}
@@ -163,7 +181,8 @@ public class Restaurante
             info = line.split(";");
             String nombre = info[0];
             int precio = Integer.parseInt(info[1]);
-            productoMenu = new ProductoMenu(nombre, precio);
+            int calorias = Integer.parseInt(info[2]);
+            productoMenu = new ProductoMenu(nombre, precio, calorias);
             menuBase.add(productoMenu);
             line = br.readLine();
         }
@@ -183,10 +202,12 @@ public class Restaurante
         while (line != null) {
             info = line.split(";");
             String nombre = info[0];
+            int calorias = Integer.parseInt(info[5]);
             double descuento = 0.07; 
+            
             if (info[1] == "10%")
             	descuento = 0.10;
-            Comb0 = new Combo(nombre, descuento);
+            Comb0 = new Combo(nombre, descuento, calorias);
             for (int i = 2; i < 5; i++) 
             {
             	productoMenu = buscarProducto(info[i]);
@@ -261,7 +282,9 @@ public class Restaurante
 	
 	private Ingrediente buscarIngrediente(int idIngrediente)
 	{
+		System.out.println("hola");
 		return Ingredientes.get(idIngrediente - 1);
+		
 	}
 	
 	public void anadirProductoAPedido(int iDProducto, Pedido elPedido, boolean esCombo) 
@@ -275,8 +298,10 @@ public class Restaurante
 	{
 		Producto aEditar = elPedido.getLastProducto();
 		elPedido.itemsPedido.remove(aEditar);
-		ProductoAjustado productoEditado = new ProductoAjustado(aEditar);
 		Ingrediente elIngrediente = buscarIngrediente(iDIngrediente);
+		int caloriasIngrediente = elIngrediente.getCalorias();
+		ProductoAjustado productoEditado = new ProductoAjustado(aEditar, caloriasIngrediente);
+		
 		if (quitar == true) 
 		{
 			productoEditado.eliminarIngrediente(elIngrediente);;

@@ -14,6 +14,7 @@ public class Pedido
 	private String nombreCliente;
 	private String direccionCliente;
 	public ArrayList<Producto> itemsPedido;
+	public ArrayList<Producto> calorias;
 	
 	///Constructor
 	public Pedido (String nombre, String direccion, int noPedido) 
@@ -46,6 +47,7 @@ public class Pedido
 			PrecioNeto += valor;
 		}
 		return PrecioNeto;
+		
 	}
 	
 	private int getPrecioTotalPedido()
@@ -56,6 +58,19 @@ public class Pedido
 		return Total;
 	}
 	
+	private int getCaloriasPedido() 
+	{
+		int Calorias = 0;
+		for (Producto item: itemsPedido) 
+		{
+			int valor = item.getCalorias();
+			Calorias += valor;
+		}
+		return Calorias;
+	}
+		
+
+	
 	private int getPrecioIVAPedido() 
 	{
 		int Neto = getPrecioNetoPedido();
@@ -63,6 +78,10 @@ public class Pedido
 		int intIVA = (int)pIVA;
 		return intIVA;
 	}
+	
+	
+	
+	
 	
 	private String darTextoFactura() 
 	{
@@ -73,14 +92,17 @@ public class Pedido
 		{
 			txtFactura += "\n        ==== Pedido ====         \n";
 			for (Producto m: itemsPedido)
+			{
 				txtFactura += ("\n" + m.generarTextoFactura());
-			txtFactura += "\n---------------------------------" + "\nTotal Neto:                  $...." 
+				txtFactura += ("\n Calorias Totales del pedido: " + getCaloriasPedido());
+				txtFactura += "\n---------------------------------" + "\nTotal Neto:                  $...." 
 				+ getPrecioNetoPedido() + "\n+ Precio IVA (19%)           $...." + getPrecioIVAPedido() + 
 				"\n---------------------------------" + "\nPrecio Total:                $...." + getPrecioTotalPedido();
+			}
 		}
 		else
 		{
-			txtFactura += "\nNo ha añadido ningún producto";
+			txtFactura += "\nNo ha anadido ningun producto";
 		}
 		return txtFactura;
 	}

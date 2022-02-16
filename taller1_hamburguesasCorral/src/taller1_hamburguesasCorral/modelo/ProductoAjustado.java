@@ -8,13 +8,15 @@ public class ProductoAjustado implements Producto
 	private Producto base;
 	private ArrayList<Ingrediente> agregados;
 	private ArrayList<Ingrediente> eliminados;
+	private int calorias;
 	
 	//Constructor
-	public ProductoAjustado(Producto item)
+	public ProductoAjustado(Producto item, int icalorias)
 	{
 		base = item;
 		agregados = new ArrayList<Ingrediente>();
 		eliminados = new ArrayList<Ingrediente>();
+		calorias += item.getCalorias() + icalorias;
 	}
 
 	///Methods
@@ -30,13 +32,18 @@ public class ProductoAjustado implements Producto
 		return precioBase;
 	}
 
+	public int getCalorias()
+	{
+		return calorias;
+	}
+	
 	@Override
 	public String getNombre() 
 	{ 
 		String nombreEditado = base.getNombre();
 		if (agregados.isEmpty() == false)
 		{
-			nombreEditado += " con adición de ";
+			nombreEditado += " con adicion de ";
 			for (Ingrediente ingred: agregados) 
 			{
 				nombreEditado += ingred.getNombre() + " ";
@@ -70,5 +77,6 @@ public class ProductoAjustado implements Producto
 	{
 		eliminados.add(noIngred);
 	}
+
 
 }

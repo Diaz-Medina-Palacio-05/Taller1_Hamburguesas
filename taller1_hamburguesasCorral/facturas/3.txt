@@ -1,0 +1,15 @@
+
+ ====== Factura No. 3 ====== 
+
+Nombre Cliente: 12
+Direccion Cliente:  12
+---------------------------------
+        ==== Pedido ====         
+
+corral con adicion de lechuga  con adicion de lechuga : 16000
+ Calorias Totales del pedido: 15
+---------------------------------
+Total Neto:                  $....16000
++ Precio IVA (19%)           $....3040
+---------------------------------
+Precio Total:                $....19040

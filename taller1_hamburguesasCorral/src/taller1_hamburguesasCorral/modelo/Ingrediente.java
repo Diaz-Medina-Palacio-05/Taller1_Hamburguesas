@@ -5,17 +5,17 @@ public class Ingrediente
 	///Attributes
 	private String nombre;
 	private int costoAdicional;
+	private int calorias;
 	
 	///Constructor
-	
-	public Ingrediente(String iNombre, int iCosto) 
+		
+	public Ingrediente(String iNombre, int iCosto, int icalorias) 
 	{
 		nombre = iNombre;
 		costoAdicional = iCosto;
+		calorias = icalorias;
 	}
-	
-	///Models
-	
+
 	public String getNombre()
 	{
 		return nombre;
@@ -24,6 +24,11 @@ public class Ingrediente
 	public int getCostoAdicional()
 	{
 		return costoAdicional;
+	}
+	
+	public int getCalorias()
+	{
+		return calorias;
 	}
 	
 }

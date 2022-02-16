@@ -1,0 +1,15 @@
+
+ ====== Factura No. 1 ====== 
+
+Nombre Cliente: 212
+Direccion Cliente:  121
+---------------------------------
+        ==== Pedido ====         
+
+corral con adicion de tomate : 15000
+ Calorias Totales del pedido: 0
+---------------------------------
+Total Neto:                  $....15000
++ Precio IVA (19%)           $....2850
+---------------------------------
+Precio Total:                $....17850

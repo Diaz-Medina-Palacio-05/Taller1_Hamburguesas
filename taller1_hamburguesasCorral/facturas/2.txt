@@ -1,0 +1,15 @@
+
+ ====== Factura No. 2 ====== 
+
+Nombre Cliente: 13
+Direccion Cliente:  13
+---------------------------------
+        ==== Pedido ====         
+
+papas grandes con adicion de pina  con adicion de frijol refrito : 13900
+ Calorias Totales del pedido: 0
+---------------------------------
+Total Neto:                  $....13900
++ Precio IVA (19%)           $....2641
+---------------------------------
+Precio Total:                $....16541

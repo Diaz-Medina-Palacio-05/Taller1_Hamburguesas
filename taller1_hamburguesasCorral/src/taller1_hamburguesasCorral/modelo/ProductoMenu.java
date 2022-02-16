@@ -4,11 +4,13 @@ public class ProductoMenu implements Producto
 {
 	private String nombre;
 	private int precioBase;
+	private int calorias;
 	
-	public ProductoMenu(String pNombre, int pPrecio) 
+	public ProductoMenu(String pNombre, int pPrecio, int icalorias) 
 	{
 		nombre = pNombre;
 		precioBase = pPrecio;
+		calorias = icalorias;
 	}
 	@Override
 	public int getPrecio() 
@@ -28,4 +30,8 @@ public class ProductoMenu implements Producto
 		return nombre + ": " + precioBase;
 	}
 
+	public int getCalorias()
+	{
+		return calorias;
+	}
 }

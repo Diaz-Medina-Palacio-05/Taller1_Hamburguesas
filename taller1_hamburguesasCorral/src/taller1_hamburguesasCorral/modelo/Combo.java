@@ -9,14 +9,16 @@ public class Combo implements Producto
 	private String nombreCombo;
 	private ArrayList<ProductoMenu> itemsCombo;
 	private Bebida bebidaCombo;
+	private int calorias;
 	///Constructor
 	
-	public Combo(String nombre, double menos)
+	public Combo(String nombre, double menos, int pcalorias)
 	{
 		descuento = menos;
 		nombreCombo = nombre;
 		itemsCombo = new ArrayList<ProductoMenu>();
 		bebidaCombo = null;
+		calorias = pcalorias;
 	}
 	
 	public void agregarBebida(Bebida pbebidaCombo)
@@ -27,6 +29,11 @@ public class Combo implements Producto
 	public void agregarCombo(ProductoMenu itemCombo)
 	{
 		itemsCombo.add(itemCombo);
+	}
+	
+	public int getCalorias()
+	{
+		return calorias;
 	}
 	
 	@Override

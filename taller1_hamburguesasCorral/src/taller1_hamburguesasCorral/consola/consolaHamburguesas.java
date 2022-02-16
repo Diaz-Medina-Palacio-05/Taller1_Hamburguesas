@@ -31,14 +31,13 @@ public class consolaHamburguesas
 					case 3 -> agregarComida();
 					case 4 -> {System.out.println("Guardando Pedido... "); corral.cerrarGuardarPedido();}
 					case 5 -> buscarPedidoPorID();
-					case 6 -> {System.out.println("\n Saliendo de la aplicacion ...");
-					continuar = false;}
+					case 6 -> {System.out.println("\n Saliendo de la aplicacion ...");}
 					default -> System.out.println("Seleccione una opcion valida");
 				}
 			}
 			catch (NumberFormatException e)
 			{
-				System.out.println("Debe seleccionar uno de los numeros de las opciones.");
+				System.out.println(e);
 			}
 		}
 		
@@ -74,7 +73,7 @@ public class consolaHamburguesas
 	public void nuevoPedido() 
 	{
 		String Nombre = input("\nPor favor ingrese su nombre");
-		String Direccion = input("\nPor favor ingrese su dirección");
+		String Direccion = input("\nPor favor ingrese su direccion");
 		corral.iniciarPedido(Nombre, Direccion);
 	}
 	

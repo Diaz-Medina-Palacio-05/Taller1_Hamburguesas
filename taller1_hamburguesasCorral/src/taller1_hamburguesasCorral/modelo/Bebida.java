@@ -5,13 +5,14 @@ public class Bebida {
 		///Attributes
 		private String nombre;
 		private int costoAdicional;
-		
+		private int calorias;
 		///Constructor
 		
-		public Bebida(String iNombre, int iCosto) 
+		public Bebida(String iNombre, int iCosto, int icalorias) 
 		{
 			nombre = iNombre;
 			costoAdicional = iCosto;
+			calorias = icalorias;
 		}
 		
 		///Models
@@ -24,6 +25,11 @@ public class Bebida {
 		public int getCostoAdicional()
 		{
 			return costoAdicional;
+		}
+		
+		public int getCalorias()
+		{
+			return calorias;
 		}
 		
 	}

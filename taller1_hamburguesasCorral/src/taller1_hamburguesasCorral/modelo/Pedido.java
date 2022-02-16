@@ -38,6 +38,7 @@ public class Pedido
 		itemsPedido.add(nuevoItem);
 	}
 	
+	
 	private int getPrecioNetoPedido() 
 	{
 		int PrecioNeto = 0;
@@ -83,7 +84,7 @@ public class Pedido
 	
 	
 	
-	private String darTextoFactura() 
+	public String darTextoFactura()
 	{
 		String txtFactura = "\n ====== Factura No. " + 
 				numeroPedido + " ====== \n" +  "\nNombre Cliente: " + nombreCliente + "\nDireccion Cliente:  " 
@@ -125,6 +126,36 @@ public class Pedido
 	public Producto getLastProducto()
 	{
 		return itemsPedido.get(itemsPedido.size() - 1);
+	}
+
+	public Boolean comparar(Pedido otroPedido) {
+		Boolean iguales = true;
+		
+		int cantProductosMios = itemsPedido.size();
+		int cantProductosOtro = otroPedido.itemsPedido.size();
+		
+		if (cantProductosMios != cantProductosOtro)
+		{
+			iguales = false;
+		}
+		else
+		{
+			for (int i = 0; i < cantProductosMios && iguales == true; i++)
+			{
+				Producto itemMio = itemsPedido.get(i);
+				Producto itemOtro = otroPedido.itemsPedido.get(i);
+				
+				String nombreProductoMio = itemMio.getNombre();
+				String nombreProductoOtro = itemOtro.getNombre();
+				
+				if (!nombreProductoMio.equals(nombreProductoOtro))
+				{
+					iguales = false;
+				}
+			}
+		}
+
+		return iguales;
 	}
 	
 }

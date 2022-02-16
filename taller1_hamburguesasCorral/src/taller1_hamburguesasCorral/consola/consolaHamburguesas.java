@@ -171,7 +171,9 @@ public class consolaHamburguesas
 	public void buscarPedidoPorID()
 	{
 		int respuesta = Integer.parseInt(input("Por favor ingrese el iD del Pedido"));
-		System.out.println(corral.encontrarPedido(respuesta));
+		Pedido pedido = corral.encontrarPedido(respuesta);
+		String factura = pedido.darTextoFactura();
+		System.out.println(factura);
 	}
 	
 	public static void main(String[] args) throws IOException 

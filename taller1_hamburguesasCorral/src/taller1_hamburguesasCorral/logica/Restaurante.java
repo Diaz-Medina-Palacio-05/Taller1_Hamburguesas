@@ -25,7 +25,7 @@ public class Restaurante
 	public ArrayList<Bebida> Bebidas;
 	public ArrayList<ProductoMenu> menuBase;
 	public int cantPedidos;
-	public HashMap<Integer, String> todosPedidos;
+	public HashMap<Integer, Pedido> todosPedidos;
 	
 	///Constructor
 	
@@ -49,9 +49,25 @@ public class Restaurante
 	
 	public void cerrarGuardarPedido() throws IOException 
 	{
-		int iD = getPedidoEnCurso().getIDPedido();
-		String facturaFinalizada = getPedidoEnCurso().guardarFactura();
-		todosPedidos.put(iD, facturaFinalizada);
+		Pedido pedidoEnCurso = getPedidoEnCurso();
+		int iD = pedidoEnCurso.getIDPedido();
+		
+		
+		
+		// revisar si el pedido tiene otro identico a este
+		
+		ArrayList<Pedido> pedidosIdenticos = darPedidosIdenticos(pedidoEnCurso);
+		
+		if (pedidosIdenticos.size() > 0)
+		{
+			imprimirPedidosIdenticos(pedidosIdenticos);
+		}
+		else
+		{
+			System.out.println("Nota: No hay pedidos identicos");
+		}
+		
+		todosPedidos.put(iD, pedidoEnCurso);
 	}
 	
 	public Pedido getPedidoEnCurso() 
@@ -106,11 +122,42 @@ public class Restaurante
 				System.out.println(c.generarTextoFactura());  ; 
 			}
 			
-		} catch (IOException e) 
+		} 
+		catch (IOException e) 
 		{
 			e.printStackTrace();
 		} 
 		
+	}
+	
+	private void imprimirPedidosIdenticos(ArrayList<Pedido> pedidosIdenticos) {
+		System.out.println("Lista de pedidos identicos:");
+		
+		for (Pedido pedido : pedidosIdenticos)
+		{
+			System.out.println("ID: " + pedido.getIDPedido());
+		}
+	}
+
+	
+	private ArrayList<Pedido> darPedidosIdenticos(Pedido elPedidoActual)
+	{
+		
+		ArrayList<Pedido> pedidosIdenticos = new ArrayList<Pedido>();
+		
+		for(HashMap.Entry<Integer, Pedido> llaveValor: todosPedidos.entrySet()) 
+		{
+			Pedido pedidoRecorrido = llaveValor.getValue();
+			
+			Boolean esIdentico = pedidoRecorrido.comparar(elPedidoActual);
+			
+			if(esIdentico == true)
+			{
+				pedidosIdenticos.add(pedidoRecorrido);
+			}	
+		}
+		
+		return pedidosIdenticos;
 	}
 	
 	private int darCantPedidos() 
@@ -300,21 +347,23 @@ public class Restaurante
 		elPedido.itemsPedido.remove(aEditar);
 		Ingrediente elIngrediente = buscarIngrediente(iDIngrediente);
 		int caloriasIngrediente = elIngrediente.getCalorias();
-		ProductoAjustado productoEditado = new ProductoAjustado(aEditar, caloriasIngrediente);
+		ProductoAjustado productoEditado;
 		
 		if (quitar == true) 
 		{
-			productoEditado.eliminarIngrediente(elIngrediente);;
+			productoEditado = new ProductoAjustado(aEditar, -caloriasIngrediente);
+			productoEditado.eliminarIngrediente(elIngrediente);
 		}
 		else 
 		{
+			productoEditado = new ProductoAjustado(aEditar, caloriasIngrediente);
 			productoEditado.agregarIngrediente(elIngrediente);
 		}
 		elPedido.anadirPedido(productoEditado);
 			
 	}
 	
-	public String encontrarPedido(int codigo)
+	public Pedido encontrarPedido(int codigo)
 	{
 		return todosPedidos.get(codigo);
 	}
